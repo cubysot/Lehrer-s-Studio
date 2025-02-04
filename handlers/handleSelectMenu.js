@@ -15,7 +15,7 @@ module.exports = {
 
     const modal = new ModalBuilder()
       .setCustomId('ticket_modal')
-      .setTitle(`Lehrer's Studio - ${category.toUpperCase()}`);
+      .setTitle(`Lehrers Studio - ${category.toUpperCase()}`);
 
     const input = new TextInputBuilder()
       .setCustomId('description')

@@ -61,7 +61,7 @@ async function generateHTMLTranscript(channel) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lehrer's Studio</title>
+    <title>Lehrers Studio</title>
     ${styles}
 </head>
 <body>
@@ -74,9 +74,9 @@ async function generateHTMLTranscript(channel) {
             </svg>
         </div>
         <div class="separador"></div>
-        <!-- Servidor Lehrer's Studio (ya cargado) -->
+        <!-- Servidor Lehrers Studio (ya cargado) -->
         <div class="server-item">
-            <img src="https://cdn.discordapp.com/attachments/1108208209124143166/1336171594334081074/Logo-preview.png?ex=67a2d644&is=67a184c4&hm=eb28ed0a51673f50f3505a914d2a221a75a87c93d650a6f0a94cb572a52c4e3e&" alt="Lehrer's Studio" class="server-avatar">
+            <img src="https://cdn.discordapp.com/attachments/1108208209124143166/1336171594334081074/Logo-preview.png?ex=67a2d644&is=67a184c4&hm=eb28ed0a51673f50f3505a914d2a221a75a87c93d650a6f0a94cb572a52c4e3e&" alt="Lehrers Studio" class="server-avatar">
         </div>
         <!-- Otro servidor en carga con iniciales -->
         ${Array(5).fill('<div class="server-item server-loading"><span class="server-initial"></span></div>').join('')}
@@ -89,7 +89,7 @@ async function generateHTMLTranscript(channel) {
                 <div class="booster">
                     <img src="https://discordresources.com/img/server/CommunityBoosted.svg" alt="Imagen no disponible" class="booster-icon">
                 </div>
-                <div class="channel-header">Lehrer's Studio</div>
+                <div class="channel-header">Lehrers Studio</div>
             </div>
         </div>
         <div class="channel-list">

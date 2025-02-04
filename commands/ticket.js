@@ -4,15 +4,15 @@ const { TICKET_CONFIG } = require('../utils/config');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('ticket')
-    .setDescription('Crea un ticket de soporte en Lehrer's Studio.'),
+    .setDescription('Crea un ticket de soporte en Lehrers Studio.'),
   async execute(interaction) {
     // Crear un Embed con un diseño más atractivo
     const embed = new EmbedBuilder()
-      .setTitle('🎫 Soporte de Lehrer's Studio')
+      .setTitle('🎫 Soporte de Lehrers Studio')
       .setDescription('¡Hola! ¿Necesitas ayuda? Crea un ticket para recibir asistencia personalizada.\n\n**¿Cómo funciona?**\n1. Haz clic en el menú de abajo.\n2. Elige una categoría.\n3. Describe tu consulta en el formulario.')
       .setColor(0x5865F2) // Color azul de Discord
       .setThumbnail(interaction.guild.iconURL()) // Usar el ícono del servidor
-      .setFooter({ text: 'Soporte 24/7 | Lehrer's Studio Network', iconURL: interaction.guild.iconURL() });
+      .setFooter({ text: 'Soporte 24/7 | Lehrers Studio Network', iconURL: interaction.guild.iconURL() });
 
     // Crear opciones para el menú de selección
     const categories = [
