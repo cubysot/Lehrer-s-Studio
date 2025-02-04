@@ -10,17 +10,17 @@ module.exports = {
         await handleSelectCategory(interaction);
         return;
       }
-      
+
       if (interaction.isModalSubmit() && interaction.customId === 'ticket_modal') {
         await handleTicketModal(interaction);
         return;
       }
-      
+
       if (interaction.isButton()) {
         await handleTicketButtons(interaction);
         return;
       }
-      
+
       if (interaction.isCommand()) {
         const command = interaction.client.commands.get(interaction.commandName);
         if (!command) return;
@@ -29,14 +29,13 @@ module.exports = {
       }
     } catch (error) {
       console.error('Error en interactionCreate:', error);
-
-      if (interaction.replied || interaction.deferred) {
-        await interaction.followUp({ 
+      if (!interaction.replied && !interaction.deferred) {
+        await interaction.reply({ 
           content: '❌ Ocurrió un error al procesar la interacción', 
           ephemeral: true 
         });
       } else {
-        await interaction.reply({ 
+        await interaction.followUp({ 
           content: '❌ Ocurrió un error al procesar la interacción', 
           ephemeral: true 
         });

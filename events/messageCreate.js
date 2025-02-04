@@ -1,8 +1,4 @@
-const { 
-  EmbedBuilder, 
-  ActionRowBuilder, 
-  StringSelectMenuBuilder 
-} = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder } = require('discord.js');
 const { TICKET_CONFIG } = require('../utils/config');
 
 module.exports = {
@@ -13,7 +9,13 @@ module.exports = {
     if (message.content.toLowerCase() === '!ticket') {
       const embed = new EmbedBuilder()
         .setTitle('🎟️ Soporte de Lehrer\'s Studio')
-        .setDescription('¡Hola! ¿Necesitas ayuda? Crea un ticket para asistencia.\n\n**¿Cómo funciona?**\n1. Haz clic en el menú\n2. Elige una categoría\n3. Describe tu consulta')
+        .setDescription(
+          '¡Hola! ¿Necesitas ayuda? Crea un ticket para asistencia.\n\n' +
+          '**¿Cómo funciona?**\n' +
+          '1. Haz clic en el menú\n' +
+          '2. Elige una categoría\n' +
+          '3. Describe tu consulta'
+        )
         .setColor(0x5865F2)
         .setThumbnail(message.guild.iconURL())
         .setFooter({ text: 'Soporte 24/7 | Lehrer\'s Studio' });

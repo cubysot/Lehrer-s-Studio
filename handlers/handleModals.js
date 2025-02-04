@@ -17,7 +17,7 @@ function getNextTicketNumber() {
 module.exports = {
   tickets,
   handleTicketModal: async (interaction) => {
-    await interaction.deferReply({ flags: 'Ephemeral' });
+    await interaction.deferReply({ ephemeral: true });
     
     const category = userSelections.get(interaction.user.id);
     if (!category) {
@@ -25,7 +25,10 @@ module.exports = {
     }
     
     const description = interaction.fields.getTextInputValue('description');
-    const isPublic = TICKET_CONFIG.PUBLIC_CATEGORIES.includes(category.toUpperCase());
+    // Se comprueba si la categoría (en minúsculas) está incluida en las públicas
+    const isPublic = TICKET_CONFIG.PUBLIC_CATEGORIES.some(c =>
+      c.toLowerCase().startsWith(category.toLowerCase())
+    );
     const targetRole = isPublic ? TICKET_CONFIG.STAFF_ROLE : TICKET_CONFIG.ADMIN_ROLE;
 
     let categoryChannel = interaction.guild.channels.cache.find(c => 
@@ -37,14 +40,8 @@ module.exports = {
         name: category.toUpperCase(),
         type: 4,
         permissionOverwrites: [
-          {
-            id: interaction.guild.id,
-            deny: ['ViewChannel']
-          },
-          {
-            id: targetRole,
-            allow: ['ViewChannel', 'ManageChannels']
-          }
+          { id: interaction.guild.id, deny: ['ViewChannel'] },
+          { id: targetRole, allow: ['ViewChannel', 'ManageChannels'] }
         ]
       });
     }
@@ -56,18 +53,9 @@ module.exports = {
       type: 0,
       parent: categoryChannel.id,
       permissionOverwrites: [
-        {
-          id: interaction.guild.id,
-          deny: ['ViewChannel']
-        },
-        {
-          id: interaction.user.id,
-          allow: ['ViewChannel', 'SendMessages']
-        },
-        {
-          id: targetRole,
-          allow: ['ViewChannel', 'SendMessages', 'ManageMessages']
-        }
+        { id: interaction.guild.id, deny: ['ViewChannel'] },
+        { id: interaction.user.id, allow: ['ViewChannel', 'SendMessages'] },
+        { id: targetRole, allow: ['ViewChannel', 'SendMessages', 'ManageMessages'] }
       ],
       topic: `Ticket de ${category} - Usuario: ${interaction.user.tag}`
     });

@@ -6,44 +6,59 @@ module.exports = {
     .setName('ticket')
     .setDescription('Crea un ticket de soporte en Lehrers Studio. / Create a support ticket in Lehrers Studio.'),
   async execute(interaction) {
-    // Crear un Embed con un diseño más atractivo
-    const embed = new EmbedBuilder()
-      .setTitle('🎫 Soporte de Lehrers Studio / Lehrers Studio Support')
-      .setDescription(
-        '**¡Hola! ¿Necesitas ayuda? / Hello! Do you need help?**\n' +
-        'Crea un ticket para recibir asistencia personalizada. / Create a ticket to receive personalized assistance.\n\n' +
-        '**¿Cómo funciona? / How does it work?**\n' +
-        '1. Haz clic en el menú de abajo. / Click on the menu below.\n' +
-        '2. Elige una categoría. / Choose a category.\n' +
-        '3. Describe tu consulta en el formulario. / Describe your request in the form.'
-      )
-      .setColor(0x5865F2) // Color azul de Discord
-      .setThumbnail(interaction.guild.iconURL()) // Usar el ícono del servidor
-      .setFooter({ text: 'Soporte 24/7 | Lehrers Studio Network / 24/7 Support | Lehrers Studio Network', iconURL: interaction.guild.iconURL() });
+    try {
+      // Sólo deferReply si la interacción aún no fue reconocida
+      if (!interaction.deferred && !interaction.replied) {
+        await interaction.deferReply({ ephemeral: true });
+      }
 
-    // Crear opciones para el menú de selección
-    const categories = [
-      ...TICKET_CONFIG.PUBLIC_CATEGORIES, 
-      ...TICKET_CONFIG.PRIVATE_CATEGORIES
-    ].map(c => ({ 
-      label: c, 
-      value: c.toLowerCase().replace(/ \/ .*/, ''), // Solo toma la parte en español para el valor
-      description: `Selecciona para crear un ticket de ${c} / Select to create a ticket for ${c}` // Descripción en ambos idiomas
-    }));
+      const embed = new EmbedBuilder()
+        .setTitle('🎫 Soporte de Lehrers Studio / Lehrers Studio Support')
+        .setDescription(
+          '**¡Hola! ¿Necesitas ayuda? / Hello! Do you need help?**\n' +
+          'Crea un ticket para recibir asistencia personalizada. / Create a ticket to receive personalized assistance.\n\n' +
+          '**¿Cómo funciona? / How does it work?**\n' +
+          '1. Haz clic en el menú de abajo. / Click on the menu below.\n' +
+          '2. Elige una categoría. / Choose a category.\n' +
+          '3. Describe tu consulta en el formulario. / Describe your request in the form.'
+        )
+        .setColor(0x5865F2)
+        .setThumbnail(interaction.guild.iconURL())
+        .setFooter({ 
+          text: 'Soporte 24/7 | Lehrers Studio Network / 24/7 Support | Lehrers Studio Network', 
+          iconURL: interaction.guild.iconURL() 
+        });
 
-    // Crear el menú de selección
-    const menu = new StringSelectMenuBuilder()
-      .setCustomId('select_category')
-      .setPlaceholder('Elige una categoría / Choose a category')
-      .addOptions(categories);
+      const categories = [
+        ...TICKET_CONFIG.PUBLIC_CATEGORIES,
+        ...TICKET_CONFIG.PRIVATE_CATEGORIES
+      ].map(c => ({
+        label: c,
+        value: c.toLowerCase().replace(/ \/ .*/, ''), // Se toma la parte en español
+        description: `Selecciona para crear un ticket de ${c} / Select to create a ticket for ${c}`
+      }));
 
-    // Crear una fila de componentes (menú de selección)
-    const row = new ActionRowBuilder().addComponents(menu);
+      const menu = new StringSelectMenuBuilder()
+        .setCustomId('select_category')
+        .setPlaceholder('Elige una categoría / Choose a category')
+        .addOptions(categories);
 
-    // Responder con el Embed y el menú de selección
-    await interaction.reply({
-      embeds: [embed],
-      components: [row]
-    });
+      const row = new ActionRowBuilder().addComponents(menu);
+
+      await interaction.editReply({ embeds: [embed], components: [row] });
+    } catch (error) {
+      console.error('Error en el comando /ticket:', error);
+      if (!interaction.replied && !interaction.deferred) {
+        await interaction.reply({ 
+          content: '❌ Ocurrió un error al procesar la interacción', 
+          ephemeral: true 
+        });
+      } else {
+        await interaction.followUp({ 
+          content: '❌ Ocurrió un error al procesar la interacción', 
+          ephemeral: true 
+        });
+      }
+    }
   }
 };

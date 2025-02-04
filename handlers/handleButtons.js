@@ -1,9 +1,4 @@
-const { 
-  ActionRowBuilder, 
-  ButtonBuilder, 
-  ButtonStyle, 
-  EmbedBuilder 
-} = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } = require('discord.js');
 const fs = require('fs');
 const { generateHTMLTranscript } = require('../utils/transcript');
 const { tickets } = require('./handleModals');
@@ -22,7 +17,7 @@ module.exports = {
 
       return interaction.reply({
         embeds: [embed],
-        flags: 'Ephemeral'
+        ephemeral: true
       });
     }
 
@@ -59,12 +54,13 @@ module.exports = {
 
         await interaction.reply({ 
           embeds: [embed],
-          components: [staffButtons]
+          components: [staffButtons],
+          ephemeral: true
         });
         break;
 
       case 'transcribe':
-        await interaction.deferReply();
+        await interaction.deferReply({ ephemeral: true });
         const transcript = await generateHTMLTranscript(interaction.channel);
         
         const transcriptEmbed = new EmbedBuilder()
