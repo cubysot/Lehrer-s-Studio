@@ -1,16 +1,16 @@
 module.exports = {
   TICKET_CONFIG: {
     PUBLIC_CATEGORIES: [
-      "SOPORTE GENERAL / GENERAL SUPPORT",
-      "POSTULACION MEDIA / MEDIA APPLICATION",
-      "RECLAMAR PREMIO / CLAIM REWARD",
+      "soporte general / general support",
+      "postulacion media / media application",
+      "reclamar premio / claim reward",
     ],
     PRIVATE_CATEGORIES: [
-      "DONAR DINERO / DONATE MONEY",
-      "PARTNERSHIP / PARTNERSHIP",
+      "donar dinero / donate money",
+      "partnership / partnership",
     ],
     CONFIDENTIAL_CATEGORIES: [
-      "REPORTAR STAFF / REPORT STAFF",
+      "reportar staff / report staff",
     ],
     STAFF_ROLE: "1330625615581286562",
     ADMIN_ROLE: "1330628199016697886",

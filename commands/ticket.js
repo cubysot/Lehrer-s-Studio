@@ -4,15 +4,22 @@ const { TICKET_CONFIG } = require('../utils/config');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('ticket')
-    .setDescription('Crea un ticket de soporte en Lehrers Studio.'),
+    .setDescription('Crea un ticket de soporte en Lehrers Studio. / Create a support ticket in Lehrers Studio.'),
   async execute(interaction) {
     // Crear un Embed con un diseño más atractivo
     const embed = new EmbedBuilder()
-      .setTitle('🎫 Soporte de Lehrers Studio')
-      .setDescription('¡Hola! ¿Necesitas ayuda? Crea un ticket para recibir asistencia personalizada.\n\n**¿Cómo funciona?**\n1. Haz clic en el menú de abajo.\n2. Elige una categoría.\n3. Describe tu consulta en el formulario.')
+      .setTitle('🎫 Soporte de Lehrers Studio / Lehrers Studio Support')
+      .setDescription(
+        '**¡Hola! ¿Necesitas ayuda? / Hello! Do you need help?**\n' +
+        'Crea un ticket para recibir asistencia personalizada. / Create a ticket to receive personalized assistance.\n\n' +
+        '**¿Cómo funciona? / How does it work?**\n' +
+        '1. Haz clic en el menú de abajo. / Click on the menu below.\n' +
+        '2. Elige una categoría. / Choose a category.\n' +
+        '3. Describe tu consulta en el formulario. / Describe your request in the form.'
+      )
       .setColor(0x5865F2) // Color azul de Discord
       .setThumbnail(interaction.guild.iconURL()) // Usar el ícono del servidor
-      .setFooter({ text: 'Soporte 24/7 | Lehrers Studio Network', iconURL: interaction.guild.iconURL() });
+      .setFooter({ text: 'Soporte 24/7 | Lehrers Studio Network / 24/7 Support | Lehrers Studio Network', iconURL: interaction.guild.iconURL() });
 
     // Crear opciones para el menú de selección
     const categories = [
@@ -20,14 +27,14 @@ module.exports = {
       ...TICKET_CONFIG.PRIVATE_CATEGORIES
     ].map(c => ({ 
       label: c, 
-      value: c.toLowerCase(),
-      description: `Selecciona para crear un ticket de ${c}` // Descripción para cada opción
+      value: c.toLowerCase().replace(/ \/ .*/, ''), // Solo toma la parte en español para el valor
+      description: `Selecciona para crear un ticket de ${c} / Select to create a ticket for ${c}` // Descripción en ambos idiomas
     }));
 
     // Crear el menú de selección
     const menu = new StringSelectMenuBuilder()
       .setCustomId('select_category')
-      .setPlaceholder('Elige una categoría')
+      .setPlaceholder('Elige una categoría / Choose a category')
       .addOptions(categories);
 
     // Crear una fila de componentes (menú de selección)
